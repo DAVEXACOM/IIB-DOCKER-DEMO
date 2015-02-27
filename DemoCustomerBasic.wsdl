@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://demo.sr.eis.ibm.com" xmlns:impl="http://demo.sr.eis.ibm.com" xmlns:intf="http://demo.sr.eis.ibm.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <wsdl:types>
+  <schema targetNamespace="http://demo.sr.eis.ibm.com" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://demo.sr.eis.ibm.com" xmlns:intf="http://demo.sr.eis.ibm.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ 
+   <element name="updateCustomerInfo">
+    <complexType>
+     <sequence>
+      <element name="customer" nillable="true" type="impl:CustomerInfo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCustomerInfoResponse">
+    <complexType>
+     <sequence>
+      <element name="updateCustomerInfoReturn" nillable="true" type="impl:CustomerInfo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="CustomerInfo">
+    <sequence>
+     <element name="firstName" nillable="true" type="xsd:string"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="addresses" nillable="true" type="impl:ArrayOfAddressInfo"/>
+    </sequence>
+   </complexType>
+   <complexType name="AddressInfo">
+    <sequence>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="country" nillable="true" type="xsd:string"/>
+     <element name="stateOrProvince" nillable="true" type="xsd:string"/>
+     <element name="streetAddress1" nillable="true" type="xsd:string"/>
+     <element name="zipcode" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfAddressInfo">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="AddressInfo" nillable="true" type="impl:AddressInfo"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+
+   <wsdl:message name="updateCustomerInfoRequest">
+
+      <wsdl:part element="impl:updateCustomerInfo" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateCustomerInfoResponse">
+
+      <wsdl:part element="impl:updateCustomerInfoResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="DemoCustomer">
+
+       <wsdl:operation name="updateCustomerInfo">
+
+         <wsdl:input message="impl:updateCustomerInfoRequest" name="updateCustomerInfoRequest"/>
+
+         <wsdl:output message="impl:updateCustomerInfoResponse" name="updateCustomerInfoResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DemoCustomerSoapBinding" type="impl:DemoCustomer">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="updateCustomerInfo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateCustomerInfoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateCustomerInfoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DemoCustomerService">
+
+      <wsdl:port binding="impl:DemoCustomerSoapBinding" name="DemoCustomer">
+
+         <wsdlsoap:address location="http://localhost:9081/DemoCustomerWeb/services/DemoCustomer"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
